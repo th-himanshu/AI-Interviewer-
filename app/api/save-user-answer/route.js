@@ -1,6 +1,5 @@
 // app/api/save-answer/route.js
 
-import { NextResponse } from 'next/server';
 import { db } from '@/utils/db';
 import { UserAnswer } from '@/utils/schema';
 import moment from 'moment';
@@ -30,9 +29,9 @@ export async function POST(req) {
       createdAt: moment().format('DD-MM-yyyy')
     });
 
-    return NextResponse.json({ success: true, data: resp });
+    return Response.json({ success: true, data: resp });
   } catch (error) {
     console.error('[SAVE_ANSWER_ERROR]', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }

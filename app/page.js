@@ -1,11 +1,5 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { redirect, RedirectType } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <h2>Hii himanshu</h2>
-    <Button variant="blue">hii</Button>
-    </div>
-  );
+  return redirect("/dashboard", RedirectType.push);
 }

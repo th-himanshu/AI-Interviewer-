@@ -25,11 +25,13 @@ function AddNewInterview() {
     const [loading, setLoading] = useState(false);
     const [questions, setQuestions] = useState([]);
     const { user } = useUser();
-    const router=useRouter();
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
+
+
         const InputPrompt = "Job Position: " + jobPosition + " Job Description/Tech Stack: " + jobDesc + ", Years of Experince:" + jobExperience + " ,Depend on the above information give me " + process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT + " questions with answers in json format Field of json question and answer";
 
         try {
@@ -38,7 +40,7 @@ function AddNewInterview() {
 
             if (MockJsonResp) {
                 // Save to DB via API route
-               const saveResp= await fetch('/api/save-mock', {
+                const saveResp = await fetch('/api/save-mock', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -50,13 +52,15 @@ function AddNewInterview() {
                     }),
                 });
                 const saveData = await saveResp.json();
-                const mockId = saveData.mockId; //get mockId from API response
+                const mockId = saveData.inserted[0].mockId; //get mockId from API response
+
+                console.log(saveData);
 
                 try {
                     const questionsArr = JSON.parse(MockJsonResp[0]);
-                     setQuestions(questionsArr);
-                     setLoading(false);
-                     router.push('/dashboard/interview/'+mockId);
+                    setQuestions(questionsArr);
+                    setLoading(false);
+                    router.push('/dashboard/interview/' + mockId);
 
                 } catch (err) {
                     console.error("JSON parse error:", err);
@@ -68,7 +72,7 @@ function AddNewInterview() {
             console.error("Gemini API Error:", error);
         }
         setLoading(false);
-        
+
     }
 
     return (

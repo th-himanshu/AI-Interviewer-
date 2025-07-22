@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { db } from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,5 +14,5 @@ export async function POST(req) {
     createdBy: body.createdBy,
     createdAt: moment().format('DD-MM-yyyy')
   }).returning({ mockId: MockInterview.mockId });
-  return NextResponse.json({ inserted: resp });
+  return Response.json({ inserted: resp });
 }
